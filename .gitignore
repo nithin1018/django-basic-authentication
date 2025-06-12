@@ -1,0 +1,50 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Django secret/config
+.env
+*.env
+*.local
+
+# Database files (SQLite only — keep if using PostgreSQL)
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Django static/media (optional if collected elsewhere)
+staticfiles/
+static/
+media/
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Test/coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# Deployment
+*.pid
+Procfile
+
+# Node.js (if using frontend like React in same repo)
+node_modules/
+build/
+npm-debug.log
+yarn-error.log
