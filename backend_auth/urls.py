@@ -16,11 +16,13 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import path,include
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("ping/", lambda request: JsonResponse({"status": "ok"})),
     path("api/",include("accounts.urls")),
 ]
 
