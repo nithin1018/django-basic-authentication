@@ -23,3 +23,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/",include("accounts.urls")),
 ]
+from django.contrib.auth.models import User
+
+def create_superuser_if_needed():
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser('admin', 'admin@example.com', 'adminpassword123')
+
+create_superuser_if_needed()
