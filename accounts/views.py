@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics,status
-from . serializers import RegisterSerializer
+from . serializers import RegisterSerializer,UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -75,7 +75,7 @@ class ChangePassword(APIView):
                 {'error':'Old Password and New Password cannot be the same'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        if not User.check_password(old_password):
+        if not user.check_password(old_password):
             return Response(
                 {'error':'Old password is incorrect'},
                 status=status.HTTP_403_FORBIDDEN
@@ -86,3 +86,24 @@ class ChangePassword(APIView):
             {'message':'Succesfullt updated the password'},
             status=status.HTTP_200_OK
         )
+    
+class UserProfile(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+     
+    def put(self, request):
+        data = request.data.copy()
+
+    # Block username change attempt
+        if 'username' in data and data['username'] != request.user.username:
+            return Response(
+                {'error': 'You cannot change your username.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer = UserSerializer(request.user, data=request.data, partial=True,context={'request':request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
