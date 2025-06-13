@@ -32,7 +32,8 @@ class ForgotPassword(APIView):
         try:
             user = User.objects.get(username=username,email=email)
         except User.DoesNotExist:
-            return Response({'error':'Invalid Email or Password'},
+            return Response(
+                            {'error':'Invalid Email or Password'},
                             status=status.HTTP_400_BAD_REQUEST
                             )
         user.set_password(new_password)
