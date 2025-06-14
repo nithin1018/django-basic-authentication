@@ -18,10 +18,12 @@ class RegisterView(generics.CreateAPIView):
 
 class ProtectedHelloView(APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = RegisterSerializer
     def get(self,request):
         return Response({"message":f"Hello {request.user.username}! This is protected"})
     
 class ForgotPassword(APIView):
+    serializer_class = RegisterSerializer
     def post(self, request):
         username = request.data.get('username')
         email = request.data.get('email')
@@ -48,6 +50,7 @@ class ForgotPassword(APIView):
         )
     
 class LogoutView(APIView):
+    serializer_class = RegisterSerializer
     def post(self, request):
         try:
             refresh_token = request.data.get('refresh')
@@ -65,6 +68,7 @@ class LogoutView(APIView):
 
 class ChangePassword(APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = RegisterSerializer
     def post(self, request):
         user=request.user
         old_password=request.data.get('old_password')
@@ -115,6 +119,7 @@ class UserProfile(APIView):
     
 class AdminOnlyView(APIView):
     permission_classes =[IsAuthenticated, IsSuperUser]
+    serializer_class = RegisterSerializer
     def get(self, request):
         return Response(
             {'message':'Welcome Admin'}
