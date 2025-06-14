@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from .permissions import IsSuperUser
 # Create your views here.
 
 class RegisterView(generics.CreateAPIView):
@@ -21,7 +22,7 @@ class ForgotPassword(APIView):
     def post(self, request):
         username = request.data.get('username')
         email = request.data.get('email')
-        new_password = request.data.get('password')
+        new_password = request.data.get('password') 
 
         if not username or not email or not new_password:
             return Response(
@@ -107,3 +108,10 @@ class UserProfile(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+class AdminOnlyView(APIView):
+    permission_classes =[IsAuthenticated, IsSuperUser]
+    def get(self, request):
+        return Response(
+            {'message':'Welcome Admin'}
+        )

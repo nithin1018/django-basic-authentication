@@ -3,16 +3,23 @@ from django.contrib.auth.models import User
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    admin_code = serializers.CharField(write_only=True,required=False)
     class Meta:
         model = User
-        fields = ['username','email','password']
+        fields = ['username','email','password','admin_code']
 
-    def create(self,validate_data):
+    def create(self,validated_data):
+        admin_code = validated_data.pop('admin_code')
         user = User.objects.create_user(
-            username=validate_data['username'],
-            email=validate_data['email'],
-            password=validate_data['password'],
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
         )
+        admin_code = validated_data.pop('admin_code')
+        if admin_code == 'make-me-admin':
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
         return user
 
 class UserSerializer(serializers.ModelSerializer):
