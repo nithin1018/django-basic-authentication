@@ -93,6 +93,7 @@ class ChangePassword(APIView):
     
 class UserProfile(APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
