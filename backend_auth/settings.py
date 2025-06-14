@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
 ]
 
 MIDDLEWARE = [
@@ -159,7 +161,15 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'A beautifully documented API for your Django project.',
+    'VERSION': '1.0.0',
+    # Optional: Customize further like SERVE_INCLUDE_SCHEMA=True
+}
+
 SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'ROTATE_REFRESH_TOKENS': True,
