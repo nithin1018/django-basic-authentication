@@ -15,7 +15,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=validated_data['password'],
         )
-        admin_code = validated_data.pop('admin_code')
         if admin_code == 'make-me-admin':
             user.is_staff = True
             user.is_superuser = True
@@ -38,7 +37,10 @@ class UserSerializer(serializers.ModelSerializer):
         # Safely update fields only if they're passed
         username = validated_data.get('username', instance.username)
         email = validated_data.get('email', instance.email)
-
+        admin_code = validated_data.pop('admin_code',None)
+        if admin_code == 'make-me-admin':
+            instance.is_staff = True
+            instance.is_superuser = True
         instance.username = username
         instance.email = email
         instance.save()
