@@ -133,9 +133,13 @@ class UserListView(ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = UserFilter
 
-class ProfileView(generics.CreateAPIView):
+class RegisterProfileView(generics.CreateAPIView):
     serializer_class = RegisterProfileSerializer
 
 class DetailedProfileView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
+    serializer_class = RegisterProfileSerializer
+
+class ProfileListView(ListAPIView):
+    queryset = Profile.objects.all().order_by('id')
     serializer_class = RegisterProfileSerializer
