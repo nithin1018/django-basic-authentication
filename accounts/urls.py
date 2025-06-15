@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
 from django.urls import path
-from .views import RegisterView,ProtectedHelloView,ForgotPassword,LogoutView,ChangePassword,UserProfile,AdminOnlyView,UserListView
+from .views import RegisterView,ProtectedHelloView,ForgotPassword,LogoutView,ChangePassword,UserProfile,AdminOnlyView,UserListView,ProfileView
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
@@ -14,10 +14,11 @@ urlpatterns = [
     path('forgot-password/',ForgotPassword.as_view(),name='forgot_password'),
     path('logout/',LogoutView.as_view(),name='logout'),
     path('change-password/',ChangePassword.as_view(),name='change_password'),
-    path('profile/',UserProfile.as_view(),name='profile'),
+    path('user-profile/',UserProfile.as_view(),name='user_profile'),
     path('admin-only/',AdminOnlyView.as_view(),name='admin_only'),
     path('userlist/',UserListView.as_view(),name='userlist'),
+    path('profile/',ProfileView.as_view(),name='profile'),
     path('schema/',SpectacularAPIView.as_view(),name='schema'),
     path('docs/swagger/',SpectacularSwaggerView.as_view(url_name='schema'),name='swagger-ui'),
-    path('docs/redoc/',SpectacularRedocView.as_view(url_name='schema'),name='redoc')
+    path('docs/redoc/',SpectacularRedocView.as_view(url_name='schema'),name='redoc'),
 ]

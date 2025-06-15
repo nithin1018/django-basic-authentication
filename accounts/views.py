@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import IsSuperUser
-from . serializers import RegisterSerializer,UserSerializer
+from . serializers import RegisterSerializer,UserSerializer,RegisterProfileSerializer
 from .filters import UserFilter
 # Create your views here.
 
@@ -131,3 +131,6 @@ class UserListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_class = UserFilter
+
+class ProfileView(generics.CreateAPIView):
+    serializer_class = RegisterProfileSerializer

@@ -14,6 +14,8 @@ from pathlib import Path
 from corsheaders.defaults import default_headers
 import os
 import dj_database_url
+import cloudinary
+import cloudinary_storage
 from dotenv import load_dotenv
 load_dotenv() 
 
@@ -49,6 +51,8 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_spectacular',
     'drf_spectacular_sidecar',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -174,3 +178,5 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'ROTATE_REFRESH_TOKENS': True,
 }
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

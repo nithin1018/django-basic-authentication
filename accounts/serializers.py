@@ -27,27 +27,24 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username','email']
         read_only_fields = ['username']
-    def validate_username(self, value):
-        user=self.context['request'].user
-        if user.username == value:
-            raise serializers.ValidationError("This is your current username")
-        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
-            raise serializers.ValidationError("This Username is already taken")
-        
+   
     def update(self, instance, validated_data):
-        # Safely update fields only if they're passed
-        username = validated_data.get('username', instance.username)
         email = validated_data.get('email', instance.email)
         admin_code = validated_data.pop('admin_code',None)
         if admin_code == 'make-me-admin':
             instance.is_staff = True
             instance.is_superuser = True
-        instance.username = username
         instance.email = email
         instance.save()
         return instance
     
-class RegisterProfile(serializers.ModelSerializer):
+class RegisterProfileSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
     class Meta:
         model = Profile
-        fields = ['name','age','image']
+        fields = ['name','age','image','image_url']
+    def get_image_url(self, obj):
+        request = self.context.get('request')
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
