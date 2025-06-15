@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
 from django.urls import path
-from .views import RegisterView,ProtectedHelloView,ForgotPassword,LogoutView,ChangePassword,UserProfile,AdminOnlyView,UserListView,ProfileView
+from .views import RegisterView,ProtectedHelloView,ForgotPassword,LogoutView,ChangePassword,UserProfile,AdminOnlyView,UserListView,ProfileView,DetailedProfileView
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
@@ -18,6 +18,7 @@ urlpatterns = [
     path('admin-only/',AdminOnlyView.as_view(),name='admin_only'),
     path('userlist/',UserListView.as_view(),name='userlist'),
     path('profile/',ProfileView.as_view(),name='profile'),
+    path('profile/<int:pk>/',DetailedProfileView.as_view(),name='detailed_profile'),
     path('schema/',SpectacularAPIView.as_view(),name='schema'),
     path('docs/swagger/',SpectacularSwaggerView.as_view(url_name='schema'),name='swagger-ui'),
     path('docs/redoc/',SpectacularRedocView.as_view(url_name='schema'),name='redoc'),

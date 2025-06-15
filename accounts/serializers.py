@@ -48,3 +48,9 @@ class RegisterProfileSerializer(serializers.ModelSerializer):
         if obj.image:
             return request.build_absolute_uri(obj.image.url) if request else obj.image.url
         return None
+
+class ProfileSerializer(serializers.ModelSerializer):
+    profile = RegisterProfileSerializer()
+    class Meta:
+        model = Profile
+        feilds = ['name','age','image_url']
